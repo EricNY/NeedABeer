@@ -1,10 +1,16 @@
-NeedABeer::Application.routes.draw do
+INeedABeer::Application.routes.draw do
+  devise_for :users
+  resources :dashboard
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  ##### pointing to home controller and index action
+  root 'home#index'
+  get 'search' => 'home#search_breweries_by_location'
 
+  get 'lsearch' => 'dashboard#search_breweries_by_location'
+  get 'name_search' => 'dashboard#search_breweries_by_name'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
@@ -39,7 +45,7 @@ NeedABeer::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
-  
+
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'

@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-NeedABeer::Application.config.secret_key_base = '8bddb73dae642e9688b4dae60a8b185c474fbdde4cf41bf253437b7a48886a398d0768a0c3adb604222b8bb66ff29d9c008754e097273d377ad6c21b5e6b9046'
+INeedABeer::Application.config.secret_key_base = '56a8c227616f380f012526018741c74e88a4bde5eb05bf44917e1f0e467be6b6ef05cdf96a92d4995ab7742c44d57d18742ade8cc4ebfe59e3541f84fcb23f14'

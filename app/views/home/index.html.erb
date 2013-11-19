@@ -1,0 +1,90 @@
+
+<h1 style='text-align: center'>Welcome to our homepage</h1>
+<p>Hey thirsty people! We know you're in a mood to kick back so we'll keep it simple: You can either fill in your location and we'll find the nearest brewery for you - OR - you can sign in and manage your own pub crawl!</p>
+<br>
+<div id="location-search" class="span3">
+  <form class="form-search">
+    <input type="text" class="input-medium search-query" id='location'>
+    <button type="submit" class="btn">Search</button>
+    <p><b>Enter Location Here...</b></p>
+  </form>
+  <ul id='brewery-list'></ul>
+</div>
+<div id="map-canvas" class="span8"></div>
+
+
+<script id="li-template" type="text/x-handlebars-template">
+  <li><b>{{brewery}}</b></li>
+</script>
+
+<script>
+
+function initialize() {
+  var mapOptions = {
+    zoom: 2,
+    center: new google.maps.LatLng(20,0),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+}
+
+function loadScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
+      'callback=initialize';
+  document.body.appendChild(script);
+}
+
+function listenMarker(marker, infowindow){
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.open(map, marker);
+    // infowindow.close();
+  });
+}
+
+$('.form-search').on('submit', function(e){
+  e.preventDefault();
+
+  var location = document.getElementById('location').value;
+  var template = Handlebars.compile( $('#li-template').html() );
+
+  $.get('/search', {locality: location}, function(data){
+    $('#brewery-list').empty();
+    var pins = [];
+
+    for(var i = 0; i < data.length; i++){
+      var temp = { brewery: data[i].brewery.name}
+      $('#brewery-list').append(template(temp));
+      var coordinates = new google.maps.LatLng(data[i].latitude,data[i].longitude)
+      pins[i] = {};
+      pins[i].infowindow = new google.maps.InfoWindow({
+        content: data[i].brewery.name+'<br>'+data[i].street_address+'<br>'+data[i].phone+'<br>'+data[i].brewery.website });
+      pins[i].marker = new google.maps.Marker({
+        position: coordinates,
+        map: map
+      });
+      pins[i].marker.setMap(map);
+    }
+    map.setZoom(10);
+    map.setCenter(coordinates);
+
+    for(var i = 0; i < pins.length; i++){
+      listenMarker(pins[i].marker, pins[i].infowindow);
+    }
+
+  });
+
+
+});
+
+
+$(document).ready(function() {
+  loadScript();
+});
+
+</script>
+
+

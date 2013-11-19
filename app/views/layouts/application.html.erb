@@ -1,14 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>NeedABeer</title>
+  <title>INeedABeer</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
-</head>
-<body>
 
-<%= yield %>
+  <script type='text/javascript' src="https://github.com/downloads/wycats/handlebars.js/handlebars-1.0.0.beta.6.js"></script>
+
+</head>
+
+<body>
+<header class="navbar navar-fixed-top navbar-inverse">
+  <nav class="navbar-inner">
+    <div class="brand">I Need A Beer</div>
+    <ul class="nav">
+      <li><%= link_to('Home', root_path) %></li>
+      <li><%= link_to('About', root_path) %></li>
+      <li><%= link_to('Contact', root_path) %></li>
+    </ul>
+    <div id='user_nav'>
+    <% if user_signed_in? %>
+      Signed in as <%= current_user.email %>. Not you?
+      <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
+    <% else %>
+      <%= link_to "Sign Up", new_user_registration_path %> or <%= link_to "Sign In", new_user_session_path %>
+    <% end %>
+    </div>
+  </nav>
+
+</header>
+
+
+  <% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, :id => "flash#{name}" %>
+  <% end %>
+
+  <div class='container'>
+    <%= yield %>
+  </div>
+
+    <script>
+      $(function() {
+        var BV = new $.BigVideo();
+        BV.init();
+        BV.show('/lager.mov',{ambient:true});
+      });
+    </script>
 
 </body>
 </html>

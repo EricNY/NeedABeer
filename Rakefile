@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-NeedABeer::Application.load_tasks
+INeedABeer::Application.load_tasks

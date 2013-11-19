@@ -1,0 +1,108 @@
+<h1>Welcome to your dashboard</h1>
+
+
+<div class="tabbable span4">
+  <div id="content">
+      <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+          <li class="active"><a href="#browse" data-toggle="tab">Browse</a></li>
+          <li><a href="#hist" data-toggle="tab">History</a></li>
+          <li><a href="#wish" data-toggle="tab">Wishlist</a></li>
+
+      </ul>
+      <div id="my-tab-content" class="tab-content">
+          <div class="tab-pane active" id="browse">
+            <form class="brewery-search">
+              <input type="text" class="input-medium search-query" id='brewery'>
+              <button type="submit" class="btn">Search</button>
+              <p><b>Find brewery by name..</b></p>
+            </form>
+            <ul id='breweries'></ul>
+          </div>
+          <div class="tab-pane" id="hist">
+              <p>I've been here!</p>
+          </div>
+          <div class="tab-pane" id="wish">
+              <p>We still have to check these places out!</p>
+          </div>
+      </div>
+  </div> <!-- content -->
+</div> <!-- tabbable -->
+
+
+<div id="map-canvas" class="span7"></div>
+
+<script id="li-template" type="text/x-handlebars-template">
+  <li><b>{{brewery}}</b></li>
+  <button id="wish-button">Add to Wishlist</button>
+  <button id="history-button">Add to History</button>
+</script>
+
+<script>
+function initialize() {
+  var mapOptions = {
+    zoom: 8,
+    center: new google.maps.LatLng(-34.397, 150.644),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+}
+
+function loadScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' +
+      'callback=initialize';
+  document.body.appendChild(script);
+}
+
+// On submit. find brewery, display it as list item get its coordinates, map pin
+$('.brewery-search').on('submit', function(e){
+  e.preventDefault();
+  var brewery = document.getElementById('brewery').value;
+  var template = Handlebars.compile( $('#li-template').html() );
+
+  $.get('/name_search', {name: brewery}, function(data){
+      var breweryId = data[0].id;
+      var temp = {brewery: data[0].name};
+      $('#breweries').append(template(temp));
+      $.get('/lsearch', {ids: breweryId}, function(data){
+        var coordinates = new google.maps.LatLng(data[0].latitude, data[0].longitude);
+        marker = new google.maps.Marker({
+          position: coordinates,
+          map: map });
+        marker.setMap(map);
+        map.setZoom(16);
+        map.setCenter(coordinates);
+      });
+
+  });
+
+});// ----> end submit handler
+
+
+$(document).ready(function() {
+  loadScript();
+  $('#tabs').tab();
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
