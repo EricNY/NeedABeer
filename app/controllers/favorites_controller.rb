@@ -19,6 +19,7 @@ class FavoritesController < ApplicationController
 
   # GET /favorites/1/edit
   def edit
+
   end
 
   # POST /favorites
@@ -67,8 +68,9 @@ class FavoritesController < ApplicationController
       @favorite = Favorite.find(params[:id])
     end
 
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def favorite_params
-      params.require(:favorite).permit(:brewery_id)
+      params.permit(:brewery_id)
     end
 end

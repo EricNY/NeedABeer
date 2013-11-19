@@ -33,15 +33,15 @@
 
 <script id="li-template" type="text/x-handlebars-template">
   <li><b>{{brewery}}</b></li>
-  <button id="wish-button">Add to Wishlist</button>
-  <button id="history-button">Add to History</button>
+  <button id="wish-button" onClick="wishClick()">Add to Wishlist</button>
+  <button id="history-button" onClick="historyClick()">Add to History</button>
 </script>
 
 <script>
 function initialize() {
   var mapOptions = {
-    zoom: 8,
-    center: new google.maps.LatLng(-34.397, 150.644),
+    zoom: 2,
+    center: new google.maps.LatLng(20, 0),
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
@@ -56,6 +56,7 @@ function loadScript() {
       'callback=initialize';
   document.body.appendChild(script);
 }
+var breweryId = '';
 
 // On submit. find brewery, display it as list item get its coordinates, map pin
 $('.brewery-search').on('submit', function(e){
@@ -64,7 +65,7 @@ $('.brewery-search').on('submit', function(e){
   var template = Handlebars.compile( $('#li-template').html() );
 
   $.get('/name_search', {name: brewery}, function(data){
-      var breweryId = data[0].id;
+      breweryId = data[0].id;
       var temp = {brewery: data[0].name};
       $('#breweries').append(template(temp));
       $.get('/lsearch', {ids: breweryId}, function(data){
@@ -81,6 +82,22 @@ $('.brewery-search').on('submit', function(e){
 
 });// ----> end submit handler
 
+
+// Wishlist handler
+function wishClick(){
+  // $.post( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
+  $.post('/favorites', {brewery_id: breweryId}, function(data){
+    console.log(data);
+  }, 'json');
+}
+// -----> end Wishlist handler
+
+
+// History handler
+function historyClick(){
+
+}
+// -----> end History handler
 
 $(document).ready(function() {
   loadScript();
