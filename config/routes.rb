@@ -1,6 +1,9 @@
 INeedABeer::Application.routes.draw do
+  resources :favorites
+
   devise_for :users
   resources :dashboard
+  resources :favorites
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
