@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131119161107) do
+ActiveRecord::Schema.define(version: 20131119230034) do
 
   create_table "favorites", force: true do |t|
     t.string   "brewery_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "histories", force: true do |t|
+    t.string   "brewery_id"
+    t.integer  "userID"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

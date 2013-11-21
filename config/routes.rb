@@ -1,4 +1,6 @@
 INeedABeer::Application.routes.draw do
+  resources :histories
+
   resources :favorites
 
   devise_for :users
@@ -14,6 +16,7 @@ INeedABeer::Application.routes.draw do
 
   get 'lsearch' => 'dashboard#search_breweries_by_location'
   get 'name_search' => 'dashboard#search_breweries_by_name'
+  get 'search_by_id' => 'dashboard#search_breweries_by_id'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

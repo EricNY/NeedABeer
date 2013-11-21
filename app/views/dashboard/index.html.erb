@@ -4,9 +4,9 @@
 <div class="tabbable span4">
   <div id="content">
       <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-          <li class="active"><a href="#browse" data-toggle="tab">Browse</a></li>
-          <li><a href="#hist" data-toggle="tab">History</a></li>
-          <li><a href="#wish" data-toggle="tab">Wishlist</a></li>
+          <li class="active"><a href="#browse" data-toggle="tab" id="browse_tab">Browse</a></li>
+          <li><a href="#hist" data-toggle="tab" id="history_tab">History</a></li>
+          <li><a href="#wish" data-toggle="tab" id="wish_tab">Wishlist</a></li>
 
       </ul>
       <div id="my-tab-content" class="tab-content">
@@ -56,7 +56,52 @@ function loadScript() {
       'callback=initialize';
   document.body.appendChild(script);
 }
+
+function listenMarker(marker, infowindow){
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.open(map, marker);
+    // infowindow.close();
+  });
+}
+
 var breweryId = '';
+var markers = [];
+// *******  wire up tabs  ***********
+
+// history tab will clear map and only put pins of where user has been
+$('#history_tab').on('click', function(){
+  // alert(markers.length);
+    // clear map
+    for(var i=0; i<markers.length; i++){
+      markers[i].setMap(null);
+    }
+    // get all history elements from rails database. Populate markers with that info and put pins on map
+    $.get('/histories', function(data){
+
+      markers = []; // empty markers array
+      // use brewery ids to get location info from brewery_db and push marker objects to array
+      for(var i=0; i<data.length; i++){
+        $.get('/lsearch', {ids: data[i].brewery_id}, function(data){
+          var coordinates = new google.maps.LatLng(data[0].latitude, data[0].longitude);
+          console.log(data[0]);
+          // infowindow = new google.maps.InfoWindow({
+          //   content: data[0].brewery.name+'<br>'+data[0].street_address+'<br>'+data[0].phone+'<br>'+data[0].brewery.website });
+          pin = new google.maps.Marker({
+              position: coordinates,
+              map: map });
+          // markers.push(pin);
+          // listenMarker(pin, infowindow);
+         // pin.setMap(map);
+
+        });
+
+      }
+      map.setZoom(2);
+      // map.setCenter(coordinates);
+    }, 'json');
+
+});
+// ******* End Wire Up Tabs ************
 
 // On submit. find brewery, display it as list item get its coordinates, map pin
 $('.brewery-search').on('submit', function(e){
@@ -64,19 +109,8 @@ $('.brewery-search').on('submit', function(e){
   var brewery = document.getElementById('brewery').value;
   var template = Handlebars.compile( $('#li-template').html() );
 
-  $.get('/name_search', {name: brewery}, function(data){
-      breweryId = data[0].id;
-      var temp = {brewery: data[0].name};
-      $('#breweries').append(template(temp));
-      $.get('/lsearch', {ids: breweryId}, function(data){
-        var coordinates = new google.maps.LatLng(data[0].latitude, data[0].longitude);
-        marker = new google.maps.Marker({
-          position: coordinates,
-          map: map });
-        marker.setMap(map);
-        map.setZoom(16);
-        map.setCenter(coordinates);
-      });
+  $.get('/search_by_id', {}, function(data){
+    console.log(data);
 
   });
 
@@ -95,7 +129,10 @@ function wishClick(){
 
 // History handler
 function historyClick(){
-
+  // $.post( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
+  $.post('/histories', {brewery_id: breweryId, userID: <%= current_user.id %>}, function(data){
+    console.log(data);
+  }, 'json');
 }
 // -----> end History handler
 

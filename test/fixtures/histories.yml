@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  brewery_id: MyString
+  userID: 1
+
+two:
+  brewery_id: MyString
+  userID: 1

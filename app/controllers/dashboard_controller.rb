@@ -22,5 +22,10 @@ class DashboardController < ApplicationController
     render({:json=>breweries})
   end
 
+  def search_breweries_by_id
+    # use ruby lib
+    brewery = @brewery_db.brewery(id: 'DnuXce').locations
+    render({:json=>brewery})
+  end
 
 end
