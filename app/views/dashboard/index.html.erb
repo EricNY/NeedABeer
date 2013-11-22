@@ -1,12 +1,10 @@
-<h1>Welcome to your dashboard</h1>
-
 
 <div class="tabbable span4">
   <div id="content">
       <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-          <li class="active"><a href="#browse" data-toggle="tab" id="browse_tab">Browse</a></li>
-          <li><a href="#hist" data-toggle="tab" id="history_tab">History</a></li>
-          <li><a href="#wish" data-toggle="tab" id="wish_tab">Wishlist</a></li>
+          <li class="active"><a href="#browse" data-toggle="tab" id="browse_tab"><b>Browse</b></a></li>
+          <li><a href="#hist" data-toggle="tab" id="history_tab"><b>History</b></a></li>
+          <li><a href="#wish" data-toggle="tab" id="wish_tab"><b>Wishlist</b></a></li>
 
       </ul>
       <div id="my-tab-content" class="tab-content">
@@ -35,8 +33,8 @@
 
 <script id="li-template" type="text/x-handlebars-template">
   <li><b>{{brewery}}</b></li>
-  <button id="wish-button" onClick="wishClick()">Add to Wishlist</button>
   <button id="history-button" onClick="historyClick()">Add to History</button>
+  <button id="wish-button" onClick="wishClick()">Add to Wishlist</button>
 </script>
 
 <script>
@@ -141,7 +139,7 @@ $('.brewery-search').on('submit', function(e){
 function wishClick(){
   // $.post( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
   $.post('/favorites', {brewery_id: breweryId, user_id: <%= current_user.id %>}, function(data){
-
+    // $('#breweries').detach();
   }, 'json');
 }
 // -----> end Wishlist handler
@@ -152,6 +150,7 @@ function historyClick(){
   // $.post( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
   $.post('/histories', {brewery_id: breweryId, userID: <%= current_user.id %>}, function(data){
     console.log(data);
+    // $('#breweries').detach();
   }, 'json');
 }
 // -----> end History handler
