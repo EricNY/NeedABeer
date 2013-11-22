@@ -163,7 +163,7 @@ DEPENDENCIES
   bootstrap_helper
   brewery_db
   coffee-rails (~> 4.0.0)
-  debugger (~> 1.6.2)
+  debugger
   devise
   jbuilder (~> 1.2)
   jquery-rails
