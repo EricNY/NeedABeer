@@ -22,6 +22,14 @@ class FavoritesController < ApplicationController
 
   end
 
+  def get_by_user
+    @favorites = Favorite.where(:user_id => params[:user_id])
+    # logger.info("******** #{@favorites}")
+    respond_to do |format|
+      format.json { render json: @favorites }
+    end
+  end
+
   # POST /favorites
   # POST /favorites.json
   def create
@@ -71,6 +79,6 @@ class FavoritesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def favorite_params
-      params.permit(:brewery_id)
+      params.permit(:brewery_id, :user_id)
     end
 end

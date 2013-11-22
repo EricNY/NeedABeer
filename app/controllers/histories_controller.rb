@@ -21,6 +21,14 @@ class HistoriesController < ApplicationController
   def edit
   end
 
+  def get_by_user
+    @histories = History.where(:userID => params[:user_id])
+    # logger.info("******** #{@favorites}")
+    respond_to do |format|
+      format.json { render json: @histories }
+    end
+  end
+
   # POST /histories
   # POST /histories.json
   def create

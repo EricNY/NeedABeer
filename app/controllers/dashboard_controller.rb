@@ -23,8 +23,12 @@ class DashboardController < ApplicationController
   end
 
   def search_breweries_by_id
-    # use ruby lib
-    brewery = @brewery_db.brewery(id: 'DnuXce').locations
+    brewery = @brewery_db.breweries.all(name: params[:name], withLocations: params[:withLocations])
+    render({:json=>brewery})
+  end
+
+  def get_brewery_using_breweries_id
+    brewery = @brewery_db.breweries.all(ids: params[:ids], withLocations: params[:withLocations])
     render({:json=>brewery})
   end
 

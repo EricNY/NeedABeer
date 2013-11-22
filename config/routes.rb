@@ -17,6 +17,9 @@ INeedABeer::Application.routes.draw do
   get 'lsearch' => 'dashboard#search_breweries_by_location'
   get 'name_search' => 'dashboard#search_breweries_by_name'
   get 'search_by_id' => 'dashboard#search_breweries_by_id'
+  get 'favorites/user/:user_id' => 'favorites#get_by_user'
+  get 'histories/user/:user_id' => 'histories#get_by_user'
+  get 'brewery_by_id' => 'dashboard#get_brewery_using_breweries_id'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
