@@ -132,13 +132,14 @@ $('#history_tab').on('click', function(){
           var marker = new google.maps.Marker({position: coordinates, map: map});
           listenMarker(marker, infowindow)
           marker.setMap(map);
-          map.setZoom(8);
+          map.setZoom(2);
           map.setCenter(coordinates);
         });
       }
   });
 });
 
+// wish tab will clear map and only put pins of where user wants to go
 $('#wish_tab').on('click', function(){
   $('#wish-list').empty();
   initialize();
@@ -152,7 +153,7 @@ $('#wish_tab').on('click', function(){
           var marker = new google.maps.Marker({position: coordinates, map: map});
           listenMarker(marker, infowindow)
           marker.setMap(map);
-          map.setZoom(8);
+          map.setZoom(2);
           map.setCenter(coordinates);
         });
       }

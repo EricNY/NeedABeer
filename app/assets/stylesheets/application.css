@@ -12,10 +12,42 @@
  *= require_tree .
  */
 
+#page-top {
+  fixed: top;
+  width: 100%;
+  padding-bottom: 1px;
+  margin-bottom: 100px;
+}
+
+#brand {
+  color: #000000;
+  font: 60px gunslinger, sans-serif;
+  font-weight: bold;
+  padding-top: 25px;
+  padding-left: 25px;
+  float: left;
+  /*width: 75%;*/
+}
+
+#user_nav {
+  float: left;
+  /*width: 25%;*/
+}
+
+.nav{
+  color: #fff;
+}
+
+.navbar-inner {
+  background-color: blue;
+  filter: none;
+  background-image: none;
+}
 
 #user_nav {
   float: right;
   padding: 10px;
+  color: gray;
 }
 
 #map-canvas img {

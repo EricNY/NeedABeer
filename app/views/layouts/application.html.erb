@@ -11,14 +11,15 @@
 </head>
 
 <body>
-<header class="navbar navar-fixed-top navbar-inverse">
-  <nav class="navbar-inner">
-    <div class="brand">I Need A Beer</div>
-    <ul class="nav">
+  <div id='page-top'>
+<!-- <header class="navbar navar-fixed-top navbar-inverse"> -->
+  <!-- <nav class="navbar-inner"> -->
+    <div id="brand">I Need A Beer</div>
+<!--     <ul class="nav">
       <li><%= link_to('Home', root_path) %></li>
       <li><%= link_to('About', root_path) %></li>
       <li><%= link_to('Contact', root_path) %></li>
-    </ul>
+    </ul> -->
     <div id='user_nav'>
     <% if user_signed_in? %>
       Signed in as <%= current_user.email %>. Not you?
@@ -27,9 +28,10 @@
       <%= link_to "Sign Up", new_user_registration_path %> or <%= link_to "Sign In", new_user_session_path %>
     <% end %>
     </div>
-  </nav>
+  <!-- </nav> -->
 
-</header>
+<!-- </header> -->
+  </div>
 
   <% flash.each do |name, msg| %>
     <%= content_tag :div, msg, :id => "flash#{name}" %>
@@ -43,7 +45,7 @@
       $(function() {
         var BV = new $.BigVideo();
         BV.init();
-        BV.show('/beer_pour.mp4',{ambient:true});
+        BV.show('/beerbubbles.mp4',{ambient:true});
       });
     </script>
 

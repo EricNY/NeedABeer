@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
   end
 
   def search_breweries_by_name
-    brewery = @brewery_db.breweries.all(name: params[:name])
+    brewery = @brewery_db.breweries.all(name: "*#{params[:name]}*")
     render({:json=>brewery})
   end
 
