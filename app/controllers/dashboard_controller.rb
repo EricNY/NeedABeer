@@ -32,4 +32,20 @@ class DashboardController < ApplicationController
     render({:json=>brewery})
   end
 
+  def get_categories
+    categories = @brewery_db.categories.all()
+    render({:json=>categories})
+  end
+
+  def get_styles
+    styles = @brewery_db.styles.all()
+    render({:json=>styles})
+  end
+
+  def get_beers
+    beers = @brewery_db.beers.all(styleId: params[:styleId], withBreweries: 'Y', abv: params[:abv])
+    render({:json=>beers})
+  # //216
+  end
+
 end

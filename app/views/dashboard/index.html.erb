@@ -1,3 +1,6 @@
+<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"> -->
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
+<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
 
 <div class="tabbable span4">
   <div id="content">
@@ -9,17 +12,54 @@
       </ul>
       <div id="my-tab-content" class="tab-content">
           <div class="tab-pane active" id="browse">
+
             <form class="brewery-search">
+              <p><b>You can find a brewery by name...</b></p>
               <input type="text" class="input-medium search-query" id='brewery'>
               <button type="submit" class="btn">Search</button>
-              <p><b>Find brewery by name..</b></p>
             </form>
             <ul id='breweries'></ul>
+
+            <p><b> Or you can browse the beers... </b></p>
+            <form class='category-search' style='margin: 0px'>
+              <p style='margin: 0px'>Step 1. Choose a category</p>
+              <select id='category-select' name='category-type' style='height: 20px'></select>
+              <!-- <button type='submit' class='btn'>Search</button> -->
+            </form>
+
+            <form class='style-search' style='margin: 0px'>
+              <p style='margin: 0px'>Step 2. Choose a style</p>
+              <select style='height: 20px' id='style-select' name='style-type'></select>
+              <!-- <button type='submit' class='btn'>Search</button> -->
+            </form>
+
+            <form class='abv-search' style='margin: 0px'>
+              <p style='margin: 0px'>Step 3. Choose alcohol percentage</p>
+              <select id='abv-select' name='abv-type' style='height: 20px'>
+                <option value='-5'>Less than 5%</option>
+                <option value='4.9,6'>5%</option>
+                <option value='5.9,7'>6%</option>
+                <option value='6.9,8'>7%</option>
+                <option value='+8.9'>more than 9%</option>
+              </select>
+              <!-- <button type='submit' class='btn'>Search</button> -->
+            </form>
+
+            <form class='beer-search' style='margin: 0px'>
+              <p style='margin: 0px'>Step 4. Choose a beer</p>
+              <select id='beer-select' name='beer-type' style='height: 20px'></select>
+              <!-- <button type='submit' id='opener' class='btn'>See Description</button> -->
+              <button type='submit' class='btn'>Find Breweries</button>
+            </form>
+            <ul id='breweries-bottom'></ul>
+
           </div>
+
           <div class="tab-pane" id="hist">
               <p>I've been here!</p>
               <ul id='history-list'></ul>
           </div>
+
           <div class="tab-pane" id="wish">
               <p>We still have to check these places out!</p>
               <ul id='wish-list'></ul>
@@ -30,6 +70,18 @@
 
 
 <div id="map-canvas" class="span7"></div>
+
+
+<!-- dialog boxes for beer descriptions -->
+<div id="dialog" title="description">
+
+</div>
+
+<script id="desc-template" type="text/x-handlebars-template">
+  <p>yoyouo</p>
+</script>
+
+
 
 <script id="li-template" type="text/x-handlebars-template">
   <li><b>{{brewery}}</b></li>
@@ -70,13 +122,10 @@ var markers = [];
 // history tab will clear map and only put pins of where user has been
 $('#history_tab').on('click', function(){
   $('#history-list').empty();
+  initialize();
   $.get('/histories/user/<%= current_user.id %>', function(data){
       for(var i = 0; i<data.length; i++){
         $.get('brewery_by_id', {ids: data[i].brewery_id, withLocations: 'Y'}, function(data){
-          console.log(data);
-
-
-
           $('#history-list').append('<li>'+data[0].name+'</li>');
           var coordinates = new google.maps.LatLng(data[0].locations[0].latitude, data[0].locations[0].longitude);
           var infowindow = new google.maps.InfoWindow({content: data[0].name+'<br>'+data[0].locations[0].street_address+'<br>'+data[0].locations[0].phone+'<br>'+data[0].locations[0].website });
@@ -85,9 +134,6 @@ $('#history_tab').on('click', function(){
           marker.setMap(map);
           map.setZoom(8);
           map.setCenter(coordinates);
-
-
-
         });
       }
   });
@@ -95,6 +141,7 @@ $('#history_tab').on('click', function(){
 
 $('#wish_tab').on('click', function(){
   $('#wish-list').empty();
+  initialize();
   $.get('/favorites/user/<%= current_user.id %>', function(data){
       //list each brewery in a ul
       for(var i = 0; i<data.length; i++){
@@ -111,6 +158,65 @@ $('#wish_tab').on('click', function(){
       }
   });
 });
+
+$('#browse_tab').on('click', function(){
+  initialize();
+});
+
+//load categories into dropdown
+$('#category-select').on('click', function(e){
+  e.preventDefault(e);
+  $.get('/categories', function(data){
+    for(var i=0; i<data.length; i++){
+      $('#category-select').append($('<option>', {
+        value: data[i].name,
+        text: data[i].name
+      }));
+    }
+  });
+});
+
+
+// load styles into dropdown
+$('#style-select').on('click', function(e){
+  var category = $('#category-select :selected').text();
+  e.preventDefault(e);
+  $.get('/styles', function(data){
+    for(var i=0; i<data.length; i++){
+      if(data[i].category.name == category){
+        $('#style-select').append($('<option>', {
+          value: data[i].id,
+          text: data[i].name
+        }));
+      }
+    }
+  });
+});
+
+
+// load beers into dropdown
+$('#beer-select').on('click', function(e){
+  e.preventDefault(e);
+  var style = $('#style-select :selected').val();
+  var abv = $('#abv-select :selected').val();
+  $.get('/beers', {styleId: style, abv: abv}, function(data){
+    for(var i=0; i<data.length; i++){
+      $('#beer-select').append($('<option>', {
+        value: data[i].breweries[0].name,
+        text: data[i].name
+      }));
+      // console.log(data[i].breweries[0].name);
+    }
+  });
+});
+
+// get beer descriptions
+
+$( "#opener" ).click(function() {
+  $( "#dialog" ).dialog({ autoOpen: false });
+  $( "#dialog" ).dialog( "open" );
+});
+
 // ******* End Wire Up Tabs ************
 
 // On submit. find brewery, display it as list item get its coordinates, map pin
@@ -133,6 +239,32 @@ $('.brewery-search').on('submit', function(e){
   }, 'json');
 
 });// ----> end submit handler
+
+
+// On Submit for Beer Search
+$('.beer-search').on('submit', function(e){
+  e.preventDefault();
+  var brewery = $('#beer-select :selected').val();
+  var template = Handlebars.compile( $('#li-template').html() );
+
+  $.get('/search_by_id', {name: brewery, withLocations: 'Y'}, function(data){
+    var temp = { brewery: data[0].name}
+    $('#breweries-bottom').append(template(temp));
+    breweryId = data[0].id;
+    var coordinates = new google.maps.LatLng(data[0].locations[0].latitude, data[0].locations[0].longitude);
+    var infowindow = new google.maps.InfoWindow({content: data[0].name+'<br>'+data[0].locations[0].street_address+'<br>'+data[0].locations[0].phone+'<br>'+data[0].locations[0].website });
+    var marker = new google.maps.Marker({position: coordinates, map: map});
+    listenMarker(marker, infowindow)
+    marker.setMap(map);
+    map.setZoom(8);
+    map.setCenter(coordinates);
+  }, 'json');
+
+});
+// ----> end submit for category search handler
+
+
+
 
 
 // Wishlist handler

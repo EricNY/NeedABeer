@@ -20,6 +20,9 @@ INeedABeer::Application.routes.draw do
   get 'favorites/user/:user_id' => 'favorites#get_by_user'
   get 'histories/user/:user_id' => 'histories#get_by_user'
   get 'brewery_by_id' => 'dashboard#get_brewery_using_breweries_id'
+  get 'categories' => 'dashboard#get_categories'
+  get 'styles' => 'dashboard#get_styles'
+  get 'beers' => 'dashboard#get_beers'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

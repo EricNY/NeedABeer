@@ -47,11 +47,28 @@ function listenMarker(marker, infowindow){
 
 $('.form-search').on('submit', function(e){
   e.preventDefault();
+  initialize();
+  var location = document.getElementById('location').value.trim().split(',');
+  var getRegion = function(location){
+    if(location[1] == null){
+      return null;
+    }else{
+      return location[1].trim();
+    }
+  };
+  var getCity = function(location){
+    if (location[0].charAt(location[0].length-1) === ','){
+      return location[0].slice(0, location[0].length - 1);
+    }else{
+      return location[0];
+    }
+  };
+  var city = getCity(location);
+  var region = getRegion(location);
 
-  var location = document.getElementById('location').value;
   var template = Handlebars.compile( $('#li-template').html() );
 
-  $.get('/search', {locality: location}, function(data){
+  $.get('/search', {locality: city}, function(data){
     $('#brewery-list').empty();
     var pins = [];
 
