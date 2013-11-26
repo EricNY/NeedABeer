@@ -15,7 +15,7 @@
 /*@font-face { font-family: Delicious; src: url('Delicious-Roman.otf'); }
 h3 { font-family: Delicious, sans-serif; }*/
 
-@font-face {font-family: Gunslinger; src: url('GunslingerDEMO-KCFonts.ttf');}
+@font-face {font-family: Gunslinger; src: url('/GunslingerDEMO-KCFonts.ttf');}
 /*#brand {font-family: Gunslinger}*/
 
 #page-top {
