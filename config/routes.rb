@@ -23,6 +23,11 @@ INeedABeer::Application.routes.draw do
   get 'categories' => 'dashboard#get_categories'
   get 'styles' => 'dashboard#get_styles'
   get 'beers' => 'dashboard#get_beers'
+
+
+  get 'brewery' => 'brewery'
+
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
