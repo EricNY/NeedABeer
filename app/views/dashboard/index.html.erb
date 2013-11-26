@@ -27,13 +27,13 @@
               <!-- <button type='submit' class='btn'>Search</button> -->
             </form>
 
-            <form class='style-search' style='margin: 0px'>
+            <form hidden id='style-search' class='style-search' style='margin: 0px'>
               <p style='margin: 0px'>Step 2. Choose a style</p>
               <select style='height: 20px' id='style-select' name='style-type'></select>
               <!-- <button type='submit' class='btn'>Search</button> -->
             </form>
 
-            <form class='abv-search' style='margin: 0px'>
+            <form hidden id='abv-search' class='abv-search' style='margin: 0px'>
               <p style='margin: 0px'>Step 3. Choose alcohol percentage</p>
               <select id='abv-select' name='abv-type' style='height: 20px'>
                 <option value='-5'>Less than 5%</option>
@@ -45,7 +45,7 @@
               <!-- <button type='submit' class='btn'>Search</button> -->
             </form>
 
-            <form class='beer-search' style='margin: 0px'>
+            <form hidden id='beer-search' class='beer-search' style='margin: 0px'>
               <p style='margin: 0px'>Step 4. Choose a beer</p>
               <select id='beer-select' name='beer-type' style='height: 20px'></select>
               <!-- <button type='submit' id='opener' class='btn'>See Description</button> -->
@@ -87,6 +87,12 @@
   <li><b>{{brewery}}</b></li>
   <button id="history-button" onClick="historyClick()">Add to History</button>
   <button id="wish-button" onClick="wishClick()">Add to Wishlist</button>
+</script>
+
+<script id="li-template-bottom" type="text/x-handlebars-template">
+  <li><b>{{brewery}}</b></li>
+  <button id="history-button" onClick="historyClickBottom()">Add to History</button>
+  <button id="wish-button" onClick="wishClickBottom()">Add to Wishlist</button>
 </script>
 
 <script>
@@ -174,7 +180,9 @@ $('#category-select').on('click', function(e){
         text: data[i].name
       }));
     }
+    $('#style-search').show();
   });
+
 });
 
 
@@ -191,6 +199,8 @@ $('#style-select').on('click', function(e){
         }));
       }
     }
+    $('#abv-search').show();
+    $('#beer-search').show();
   });
 });
 
@@ -246,7 +256,7 @@ $('.brewery-search').on('submit', function(e){
 $('.beer-search').on('submit', function(e){
   e.preventDefault();
   var brewery = $('#beer-select :selected').val();
-  var template = Handlebars.compile( $('#li-template').html() );
+  var template = Handlebars.compile( $('#li-template-bottom').html() );
 
   $.get('/search_by_id', {name: brewery, withLocations: 'Y'}, function(data){
     var temp = { brewery: data[0].name}
@@ -266,14 +276,20 @@ $('.beer-search').on('submit', function(e){
 
 
 
-
-
 // Wishlist handler
 function wishClick(){
   // $.post( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
   $.post('/favorites', {brewery_id: breweryId, user_id: <%= current_user.id %>}, function(data){
     // $('#breweries').detach();
   }, 'json');
+  $('#breweries').empty();
+}
+
+function wishClickBottom(){
+  // $.post( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
+  $.post('/favorites', {brewery_id: breweryId, user_id: <%= current_user.id %>}, function(data){
+  }, 'json');
+  $('#breweries-bottom').empty();
 }
 // -----> end Wishlist handler
 
@@ -285,8 +301,18 @@ function historyClick(){
     console.log(data);
     // $('#breweries').detach();
   }, 'json');
+  $('#breweries').empty();
+}
+
+function historyClickBottom(){
+  // $.post( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
+  $.post('/histories', {brewery_id: breweryId, userID: <%= current_user.id %>}, function(data){
+  }, 'json');
+  $('#breweries-bottom').empty();
 }
 // -----> end History handler
+
+
 
 $(document).ready(function() {
   loadScript();
