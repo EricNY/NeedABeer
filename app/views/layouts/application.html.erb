@@ -1,3 +1,20 @@
+
+<!-- <body>
+  <div id="wrapper">
+    <div id="header"></div>
+    <div id="content"></div>
+    <div id="footer"></div>
+  </div>
+
+
+
+  <footer class="footer">
+<br>footer
+&copy; INeedABeer 2013
+</footer>
+
+</body> -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,36 +28,35 @@
 </head>
 
 <body>
-  <div id='page-top'>
-<!-- <header class="navbar navar-fixed-top navbar-inverse"> -->
-  <!-- <nav class="navbar-inner"> -->
-    <div id="brand">I Need A Beer</div>
-<!--     <ul class="nav">
-      <li><%= link_to('Home', root_path) %></li>
-      <li><%= link_to('About', root_path) %></li>
-      <li><%= link_to('Contact', root_path) %></li>
-    </ul> -->
-    <div id='user_nav'>
-    <% if user_signed_in? %>
-      Signed in as <%= current_user.email %>. Not you?
-      <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
-    <% else %>
-      <%= link_to "Sign Up", new_user_registration_path %> or <%= link_to "Sign In", new_user_session_path %>
+  <div id="wrapper">
+    <div id='page-top'>
+  <!-- <header class="navbar navar-fixed-top navbar-inverse"> -->
+    <!-- <nav class="navbar-inner"> -->
+      <div id="brand">I Need A Beer</div>
+      <div id='user_nav'>
+      <% if user_signed_in? %>
+        Signed in as <%= current_user.email %>. Not you?
+        <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
+      <% else %>
+        <%= link_to "Sign Up", new_user_registration_path %> or <%= link_to "Sign In", new_user_session_path %>
+      <% end %>
+      </div>
+
+    </div><!-- end page top -->
+
+    <% flash.each do |name, msg| %>
+      <%= content_tag :div, msg, :id => "flash#{name}" %>
     <% end %>
+
+    <div class='container'>
+      <%= yield %>
     </div>
-  <!-- </nav> -->
 
-<!-- </header> -->
-  </div>
+    <div id="footer">
+      <footer class="footer">&copy; INeedABeer 2013<img src='/Powered-By-BreweryDB.png' width='170' height='85' style='padding-left:20px'></footer>
+    </div> <!-- end footer -->
 
-  <% flash.each do |name, msg| %>
-    <%= content_tag :div, msg, :id => "flash#{name}" %>
-  <% end %>
-
-  <div class='container'>
-    <%= yield %>
-  </div>
-
+  </div><!-- end wrapper -->
     <script>
       $(function() {
         var BV = new $.BigVideo();

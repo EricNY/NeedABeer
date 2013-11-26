@@ -25,7 +25,7 @@ INeedABeer::Application.routes.draw do
   get 'beers' => 'dashboard#get_beers'
 
 
-  get 'brewery' => 'brewery'
+  get 'brewery' => 'brewery#index'
 
 
   # Example of regular route:

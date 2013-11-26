@@ -64,13 +64,33 @@ h3 { font-family: Delicious, sans-serif; }*/
   margin-top: 50px;
 }
 
-.footer {
-  float: right;
-  padding-top: 100px;
-  padding-bottom: 35px;
-  margin-top: 100px auto;
-  border-color: white;
+body {
+  margin:0;
+  padding:0;
+  height:100%;
 }
+#wrapper {
+  min-height:100%;
+  position:relative;
+}
+
+.container {
+  padding:10px;
+  padding-bottom:80px;   /* Height of the footer element */
+}
+#footer {
+  width:100%;
+  height:40px;
+  position:absolute;
+  bottom:0;
+  left:0;
+  text-align: right;
+}
+
+.footer {
+  padding-right: 60px;
+}
+
 /*  BigVideo Styles
   You may need to adjust these styles to get this working right in your design.
 */
