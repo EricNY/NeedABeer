@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="left">
+      <img src=<%= @brewery.images.medium %>>
+      <p><%= @brewery.locations[0].hours_of_operation %></p>
+      <p>
+        <%= @brewery.locations[0].street_address %><br>
+        <%= @brewery.locations[0].locality %>, <%= @brewery.locations[0].region %> <%= @brewery.locations[0].postal_code %><br>
+        <%= @brewery.locations[0].country.display_name %><br>
+      </p>
+      <p><%= @brewery.locations[0].phone %><br>
+      <a href=<%= @brewery.website %> target="_blank"><%= @brewery.website %></a></p>
+      <p>location type: <%= @brewery.locations[0].location_type_display %></p>
+      <p>Are we organic? <%=  @brewery.is_organic %></p>
+    </div>
+
+    <div id="right">
+      <h1><%= @brewery.name %></h1>
+      <p><%= @brewery.description %></p>
+    </div>
+  </div>
+
+</body>
+</html>
+

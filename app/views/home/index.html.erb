@@ -21,7 +21,7 @@
     li:hover {background-color:lightblue; border-radius:7px; text-decoration:none; padding-left:4px}
   </style>
   <li>
-    <b><a href='#' style='text-decoration:none; color:black'>{{brewery}}</a></b>
+    <b><a href='/brewery/{{ids}}' style='text-decoration:none; color:black'>{{brewery}}</a></b>
   </li>
 </script>
 
@@ -81,7 +81,7 @@ $('.form-search').on('submit', function(e){
     var pins = [];
 
     for(var i = 0; i < data.length; i++){
-      var temp = { brewery: data[i].brewery.name}
+      var temp = { brewery: data[i].brewery.name, ids: data[i].brewery.id}
       $('#brewery-list').append(template(temp));
       var coordinates = new google.maps.LatLng(data[i].latitude,data[i].longitude)
       pins[i] = {};

@@ -79,7 +79,7 @@
     li:hover {background-color:lightblue; border-radius:7px; text-decoration:none; padding-left:4px}
   </style>
   <li>
-    <b><a href='#' style='text-decoration:none; color:black'>{{brewery}}</a></b>
+    <b><a href='/brewery/{{ids}}' style='text-decoration:none; color:black'>{{brewery}}</a></b>
   </li>
 </script>
 
@@ -133,8 +133,8 @@ $('#history_tab').on('click', function(){
   $.get('/histories/user/<%= current_user.id %>', function(data){
       for(var i = 0; i<data.length; i++){
         $.get('brewery_by_id', {ids: data[i].brewery_id, withLocations: 'Y'}, function(data){
-          var temp = data[0].name;
-          $('#history-list').append(template({brewery: temp}));
+          var temp = {brewery: data[0].name, ids: data[0].id};
+          $('#history-list').append(template(temp));
           var coordinates = new google.maps.LatLng(data[0].locations[0].latitude, data[0].locations[0].longitude);
           var infowindow = new google.maps.InfoWindow({content: data[0].name+'<br>'+data[0].locations[0].street_address+'<br>'+data[0].locations[0].phone+'<br>'+data[0].locations[0].website });
           var marker = new google.maps.Marker({position: coordinates, map: map});
@@ -156,8 +156,8 @@ $('#wish_tab').on('click', function(){
       //list each brewery in a ul
       for(var i = 0; i<data.length; i++){
         $.get('brewery_by_id', {ids: data[i].brewery_id, withLocations: 'Y'}, function(data){
-          var temp = data[0].name;
-          $('#wish-list').append(template({brewery: temp}));
+          var temp = {brewery: data[0].name, ids: data[0].id};
+          $('#wish-list').append(template(temp));
           var coordinates = new google.maps.LatLng(data[0].locations[0].latitude, data[0].locations[0].longitude);
           var infowindow = new google.maps.InfoWindow({content: data[0].name+'<br>'+data[0].locations[0].street_address+'<br>'+data[0].locations[0].phone+'<br>'+data[0].locations[0].website });
           var marker = new google.maps.Marker({position: coordinates, map: map});
