@@ -15,7 +15,11 @@
 /*@font-face { font-family: Delicious; src: url('Delicious-Roman.otf'); }
 h3 { font-family: Delicious, sans-serif; }*/
 
-@font-face {font-family: Gunslinger; src: url('/GunslingerDEMO-KCFonts.ttf');}
+@font-face {
+  /*font-family: Gunslinger; src: url('/GunslingerDEMO-KCFonts.ttf');*/
+  font-family: Bira; src: url('/Bira_PERSONAL_USE_ONLY.ttf');
+  /*font-family: CloisterBlack; src: url('/fontCloisterBlack.ttf');*/
+}
 /*#brand {font-family: Gunslinger}*/
 
 #page-top {
@@ -25,14 +29,34 @@ h3 { font-family: Delicious, sans-serif; }*/
   margin-bottom: 100px;
 }
 
-#brand {
+/*#brand {
   color: #000000;
-  font: 60px gunslinger, sans-serif;
+  font: 20px Gunslinger;
   font-weight: bold;
   padding-top: 25px;
   padding-left: 25px;
   float: left;
-  /*width: 75%;*/
+  width: 75%;
+}*/
+
+/*#brand2 {
+  color: #000000;
+  font: 20px CloisterBlack;
+  font-weight: bold;
+  padding-top: 25px;
+  padding-left: 25px;
+  float: left;
+  width: 75%;
+}*/
+
+#brand3 {
+  color: #000000;
+  font: 60px Bira;
+  font-weight: bold;
+  padding-top: 25px;
+  padding-left: 25px;
+  float: left;
+  width: 75%;
 }
 
 #user_nav {
