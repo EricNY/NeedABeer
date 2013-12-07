@@ -1,12 +1,11 @@
 
-<!-- <h1 style='text-align: center'>Welcome to our homepage</h1> -->
-<h4>Hey thirsty people! We know you're in a mood to kick back so we'll keep it simple: You can either fill in your location and we'll find the nearest brewery for you - OR - you can sign in and manage your own pub crawl!</h4>
+<h4 style='color:black'>Hey thirsty people! We know you're in a mood to kick back so we'll keep it simple: You can either fill in your location and we'll find the nearest brewery for you - OR - you can sign in and manage your own pub crawl!</h4>
 <br>
 <div id="location-search" class="span3">
   <form class="form-search">
     <input type="text" class="input-medium search-query" id='location'>
     <button type="submit" class="btn">Search</button>
-    <p><b>Enter Location Here...</b></p>
+    <p style='color:black'><b>Enter Location Here...</b></p>
   </form>
   <ul id='brewery-list'></ul>
 </div>
@@ -15,8 +14,7 @@
 
 <script id="li-template" type="text/x-handlebars-template">
   <style type='text/css'>
-    li {color:black;}
-    // a {margin-left: 4px;}
+    li {list-style-type:none;}
     a:hover {background-color:lightblue}
     li:hover {background-color:lightblue; border-radius:7px; text-decoration:none; padding-left:4px}
   </style>

@@ -1,11 +1,14 @@
 // Place all the styles related to the dashboard controller here.
-// They will automatically be included in application.css.
+// They will automatically be included in applcation.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .tabbable{
   float: left;
   height: 100%;
   padding-top: 40px;
+  border-style: solid;
+  background-color: lightblue;
+  opacity: .9;
 }
 
 #brewery {
