@@ -6,9 +6,10 @@
   float: left;
   height: 100%;
   padding-top: 40px;
+  padding-left: 40px;
   border-style: solid;
-  background-color: lightblue;
-  opacity: .9;
+  background-color: #99bbdb;
+  opacity: 1;
 }
 
 #brewery {
@@ -22,6 +23,7 @@
 #map-canvas{
   float: left;
   height: 450px;
-  margin-top: 70px;
+  padding-top: 40px;
+  margin-right: 100px;
   /*display: none;*/
 }
